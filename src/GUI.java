@@ -15,12 +15,88 @@ public class GUI extends JFrame {
 
 
 
+// -----------------------------------------Icons-------------------------------------------------------------------
+
         // create secure icon
         ImageIcon secure = new ImageIcon("src\\templates\\secure.png");
         Image image = secure.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
         secure = new ImageIcon(image);
 
+        // create scan icon
+        ImageIcon scan = new ImageIcon("src\\templates\\scan.png");
+        Image image1 = scan.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        scan = new ImageIcon(image1);
 
+        // create notification icon
+        ImageIcon noti = new ImageIcon("src\\templates\\notification.png");
+        Image image2 = noti.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        noti = new ImageIcon(image2);
+
+        // create setting icon
+        ImageIcon setting = new ImageIcon("src\\templates\\gear.png");
+        Image image3 = setting.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
+        setting = new ImageIcon(image3);
+
+        // create line label
+        Icon line1 = new ImageIcon("src\\templates\\line.png");
+        
+
+        // create search icon
+        ImageIcon searchIcon = new ImageIcon("src\\templates\\search.png");
+        Image image4 = searchIcon.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        searchIcon = new ImageIcon(image4);
+
+        // create clickScan icon
+        ImageIcon click = new ImageIcon("src\\templates\\click.png");
+        Image image5 = click.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+        click = new ImageIcon(image5);
+        
+        // create scanfile icon
+        ImageIcon filescan = new ImageIcon("src\\templates\\scanfile.png");
+        Image image6 = filescan.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        filescan = new ImageIcon(image6);
+
+        //create drive icon
+        ImageIcon drive = new ImageIcon("src\\templates\\antivirus.png");
+        Image image7 = drive.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+        drive = new ImageIcon(image7);
+
+        // create file scan icon
+        ImageIcon filescanicon = new ImageIcon("src\\templates\\files.png");
+        Image image8 = filescanicon.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+        filescanicon = new ImageIcon(image8);
+
+        // create drive scan icon
+        ImageIcon drivescanicon = new ImageIcon("src\\templates\\drive.png");
+        Image image9 = drivescanicon.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
+        drivescanicon = new ImageIcon(image9);   
+
+
+// -----------------------------------------Labels-------------------------------------------------------------------
+
+        // Line label
+        JLabel line = new JLabel();
+        line.setBounds(10, 400, 80, 2);
+        line.setIcon(line1);
+
+
+        // create scanNow Label
+        JLabel search = new JLabel();
+        search.setIcon(searchIcon);
+        search.setBounds(367, 180, 200, 200);
+
+        // create file scan label
+        JLabel filescan2 = new JLabel();
+        filescan2.setBounds(160, 250, 100, 100);
+        filescan2.setIcon(filescan);
+
+        // create file scan label
+        JLabel drivescan = new JLabel();
+        drivescan.setBounds(580, 250, 100, 100);
+        drivescan.setIcon(drive);
+
+
+// -----------------------------------------Buttons-------------------------------------------------------------------
 
         // create secure button
         JButton buttonSe = new JButton();
@@ -28,19 +104,11 @@ public class GUI extends JFrame {
         buttonSe.setOpaque(false);
         buttonSe.setContentAreaFilled(false);
         buttonSe.setBorderPainted(false);
-        buttonSe.setText("Secure");
+        buttonSe.setText("Status");
         buttonSe.setIcon(secure);
         buttonSe.setHorizontalTextPosition(JButton.CENTER);
         buttonSe.setVerticalTextPosition(JButton.BOTTOM);
         buttonSe.setForeground(Color.white);
-
-
-
-        // create scan icon
-        ImageIcon scan = new ImageIcon("src\\templates\\scan.png");
-        Image image1 = scan.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        scan = new ImageIcon(image1);
-
 
 
         // create scan button
@@ -55,15 +123,7 @@ public class GUI extends JFrame {
         buttonSc.setVerticalTextPosition(JButton.BOTTOM);
         buttonSc.setForeground(Color.white);
 
-
-
-        // create notification icon
-        ImageIcon noti = new ImageIcon("src\\templates\\notification.png");
-        Image image2 = noti.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        noti = new ImageIcon(image2);
-
-
-
+        
         // create notification button
         JButton buttonNo = new JButton();
         buttonNo.setBounds(10, 410, 85, 85);
@@ -75,15 +135,6 @@ public class GUI extends JFrame {
         buttonNo.setHorizontalTextPosition(JButton.CENTER);
         buttonNo.setVerticalTextPosition(JButton.BOTTOM);
         buttonNo.setForeground(Color.white);
-
-
-
-        // create setting icon
-        ImageIcon setting = new ImageIcon("src\\templates\\gear.png");
-        Image image3 = setting.getImage().getScaledInstance(40, 40, Image.SCALE_SMOOTH);
-        setting = new ImageIcon(image3);
-
-
 
 
         // create setting button
@@ -98,16 +149,45 @@ public class GUI extends JFrame {
         buttonSet.setVerticalTextPosition(JButton.BOTTOM);
         buttonSet.setForeground(Color.white);
 
+        
+
+        // create Click scan button
+        JButton buttonClickScan = new JButton();
+        buttonClickScan.setBounds(280, 270, 250, 200);
+        buttonClickScan.setOpaque(false);
+        buttonClickScan.setContentAreaFilled(false);
+        buttonClickScan.setBorderPainted(false);
+        buttonClickScan.setIcon(click);
+        buttonClickScan.setHorizontalTextPosition(JButton.CENTER);
+        buttonClickScan.setVerticalTextPosition(JButton.BOTTOM);
+        buttonClickScan.setForeground(Color.white);
 
 
+        // create file scan button
+        JButton filescanbut = new JButton();
+        filescanbut.setBounds(123, 360, 170, 70);
+        filescanbut.setOpaque(false);
+        filescanbut.setContentAreaFilled(false);
+        filescanbut.setBorderPainted(false);
+        filescanbut.setIcon(filescanicon);
+        filescanbut.setHorizontalTextPosition(JButton.CENTER);
+        filescanbut.setVerticalTextPosition(JButton.BOTTOM);
+        filescanbut.setForeground(Color.white);
 
-        // create line label
-        Icon line1 = new ImageIcon("src\\templates\\line.png");
-        JLabel line = new JLabel();
-        line.setBounds(10, 400, 80, 2);
-        line.setIcon(line1);
+
+        // create drive scan button
+        JButton drivescanbut = new JButton();
+        drivescanbut.setBounds(543, 360, 170, 70);
+        drivescanbut.setOpaque(false);
+        drivescanbut.setContentAreaFilled(false);
+        drivescanbut.setBorderPainted(false);
+        drivescanbut.setIcon(drivescanicon);
+        drivescanbut.setHorizontalTextPosition(JButton.CENTER);
+        drivescanbut.setVerticalTextPosition(JButton.BOTTOM);
+        drivescanbut.setForeground(Color.white);
 
 
+// -----------------------------------------PANELS-------------------------------------------------------------------
 
         // create panel 1
         JPanel panel1 = new JPanel();
@@ -121,46 +201,60 @@ public class GUI extends JFrame {
         panel1.add(line);
 
 
-
-        // create Antivirus icon
-        ImageIcon antivi = new ImageIcon("src\\templates\\antivirus.png");
-        Image image4 = antivi.getImage().getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-        antivi = new ImageIcon(image4);
-
-
-
-
-        // Add button to select files
-        JButton selectFileButton = new JButton();
-        selectFileButton.setBounds(280, 200, 200, 200);
-        selectFileButton.setOpaque(false);
-        selectFileButton.setContentAreaFilled(false);
-        selectFileButton.setBorderPainted(false);
-        selectFileButton.setText("Scanning");
-        selectFileButton.setIcon(antivi);
-        selectFileButton.setHorizontalTextPosition(JButton.CENTER);
-        selectFileButton.setVerticalTextPosition(JButton.BOTTOM);
-        selectFileButton.setForeground(Color.white);
-
-
-
-
         // create panel 2
         JPanel panel2 = new JPanel();
         panel2.setBackground(new Color(36, 36, 36));
         panel2.setBounds(100, 0, 850, 650);
         panel2.setLayout(null);
-        panel2.add(selectFileButton);
-
-        
-
+        panel2.add(search);
+        panel2.add(buttonClickScan);
 
 
+// -----------------------------------------Functions-------------------------------------------------------------------
 
+        //Go to Status Menu
+        buttonSe.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.removeAll();
+                panel2.revalidate();
+                panel2.repaint();
+                panel2.add(search);
+                panel2.add(buttonClickScan);
+            }
+        });
 
+        //Go to Scan Menu
+        buttonClickScan.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.removeAll();
+                panel2.revalidate();
+                panel2.repaint();
+                panel2.add(filescan2);
+                panel2.add(drivescan);
+                panel2.add(drivescanbut);
+                panel2.add(filescanbut);
+            }
+        });
 
-        // Add an ActionListener to the selectFileButton
-        selectFileButton.addActionListener(new ActionListener() {
+        //Go to Scan Menu
+        buttonSc.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel2.removeAll();
+                panel2.revalidate();
+                panel2.repaint();
+                panel2.add(filescan2);
+                panel2.add(drivescan);
+                panel2.add(drivescanbut);
+                panel2.add(filescanbut);
+            }
+        });
+            
+
+        //Select file to scan
+        filescanbut.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
@@ -185,12 +279,12 @@ public class GUI extends JFrame {
 
 
 
-
+// -----------------------------------------Frame-------------------------------------------------------------------
 
 
 
         // create main layout
-        ImageIcon logo = new ImageIcon("src\\templates\\antivirus.png");
+        ImageIcon logo = new ImageIcon("src\\templates\\searchIconrus.png");
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(null);
