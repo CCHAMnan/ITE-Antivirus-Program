@@ -11,7 +11,7 @@ public class GUI extends JFrame {
         Sha256 sha256 = new Sha256();
         MalwareDataset malwareDataset = new MalwareDataset();
 
-        HashSet<String> maliciousHashes = malwareDataset.getMaliciousHashes("data\\data.csv");
+        HashSet<String> maliciousHashes = malwareDataset.getMaliciousHashes("data\\dataset.csv");
 
 
 
