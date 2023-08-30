@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileSystemView;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,7 +8,9 @@ import java.util.HashSet;
 import java.util.ArrayList;
 
 public class GUI extends JFrame {
+    private JLabel driveScanningLabel;
     private int malwareFileCount = 0;
+    private Timer driveScanningTimer;
 
     private Sha256 sha256 = new Sha256();
     private MalwareDataset malwareDataset = new MalwareDataset();
@@ -75,7 +76,33 @@ public class GUI extends JFrame {
         // create drive scan icon
         ImageIcon drivescanicon = new ImageIcon("src\\templates\\drive.png");
         Image image9 = drivescanicon.getImage().getScaledInstance(150, 50, Image.SCALE_SMOOTH);
-        drivescanicon = new ImageIcon(image9);   
+        drivescanicon = new ImageIcon(image9);
+
+        // create no virus found icon
+        ImageIcon novirus = new ImageIcon("src\\templates\\nofound.png");
+        Image image10 = novirus.getImage().getScaledInstance(330, 280, Image.SCALE_SMOOTH);
+        novirus = new ImageIcon(image10);
+
+
+        // create virus found icon
+        ImageIcon found = new ImageIcon("src\\templates\\virusfound.png");
+        Image image11 = found.getImage().getScaledInstance(270, 200, Image.SCALE_SMOOTH);
+        found = new ImageIcon(image11);
+
+        // create remove found icon
+        ImageIcon removeicon = new ImageIcon("src\\templates\\remove.png");
+        Image image12 = removeicon.getImage().getScaledInstance(220, 40, Image.SCALE_SMOOTH);
+        removeicon = new ImageIcon(image12);
+
+        // create quarantine found icon
+        ImageIcon quarantineicon = new ImageIcon("src\\templates\\quarantine.png");
+        Image image13 = quarantineicon.getImage().getScaledInstance(220, 40, Image.SCALE_SMOOTH);
+        quarantineicon = new ImageIcon(image13);
+
+        // create virus scanning icon
+        ImageIcon virusscanning = new ImageIcon("src\\templates\\virusScanning.png");
+        Image image14 = virusscanning.getImage().getScaledInstance(160, 160, Image.SCALE_SMOOTH);
+        virusscanning = new ImageIcon(image14);
 
 
 
@@ -103,6 +130,34 @@ public class GUI extends JFrame {
         drivescan.setBounds(580, 250, 100, 100);
         drivescan.setIcon(drive);
 
+
+        // create no virus found label
+        JLabel novirusfound = new JLabel();
+        novirusfound.setBounds(250, 160, 350, 300);
+        novirusfound.setIcon(novirus);
+
+
+        // create virus found label
+        JLabel virusfound = new JLabel();
+        virusfound.setBounds(275, 150, 270, 200);
+        virusfound.setIcon(found);
+
+        driveScanningLabel = new JLabel("Scanning...");
+        driveScanningLabel.setBounds(320, 330, 350, 100);
+        Font scanningFont = new Font("Courier", Font.BOLD, 28);
+        driveScanningLabel.setFont(scanningFont);
+        driveScanningLabel.setForeground(Color.white);
+
+        // create virus scanning label
+        JLabel virusscanningLabel = new JLabel();
+        virusscanningLabel.setBounds(330, 190, 160, 160);
+        virusscanningLabel.setIcon(virusscanning);
+
+        JLabel virusCount = new JLabel();
+        virusCount.setBounds(250, 330, 350, 100);
+        Font VirusCountFont = new Font("Courier", Font.BOLD, 20);
+        virusCount.setFont(VirusCountFont);
+        virusCount.setForeground(Color.white);
 
 
 
@@ -197,6 +252,26 @@ public class GUI extends JFrame {
         drivescanbut.setForeground(Color.white);
 
 
+        // create remove button
+        JButton removebut = new JButton();
+        removebut.setBounds(70, 520, 230, 40);
+        removebut.setOpaque(false);
+        removebut.setContentAreaFilled(false);
+        removebut.setBorderPainted(false);
+        removebut.setIcon(removeicon);
+        removebut.setForeground(Color.white);
+
+        
+        // create quarantinebut button
+        JButton quarantinebut = new JButton();
+        quarantinebut.setBounds(530, 520, 230, 40);
+        quarantinebut.setOpaque(false);
+        quarantinebut.setContentAreaFilled(false);
+        quarantinebut.setBorderPainted(false);
+        quarantinebut.setIcon(quarantineicon);
+        quarantinebut.setForeground(Color.white);
+
+
 // -----------------------------------------PANELS-------------------------------------------------------------------
 
         // create panel 1
@@ -218,6 +293,8 @@ public class GUI extends JFrame {
         panel2.setLayout(null);
         panel2.add(search);
         panel2.add(buttonClickScan);
+        
+
 
 
 // -----------------------------------------Functions-------------------------------------------------------------------
@@ -268,6 +345,7 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                fileChooser.setDialogTitle("Select a File");
                 
                 // Show "Desktop" path as the initial directory
                 File thisPC = FileSystemView.getFileSystemView().getHomeDirectory();
@@ -280,13 +358,24 @@ public class GUI extends JFrame {
                     String selectedFilePath = selectedFile.getAbsolutePath();
 
                     String sha256Hash = sha256.getSHA256Hash(selectedFilePath);
-                    System.out.println("SHA-256 Hash of the file: " + sha256Hash);
                     boolean isMalicious = maliciousHashes.contains(sha256Hash);
 
                     if (isMalicious) {
+                        panel2.removeAll();
+                        panel2.revalidate();
+                        panel2.repaint();
+                        panel2.add(virusfound);
+                        panel2.add(removebut);
+                        panel2.add(quarantinebut);
+                        
+
                         System.out.println("The file is detected as malicious.");
                     } else {
-                        System.out.println("The file is not detected as malicious.");
+                        System.out.println("Files is clean!");
+                        panel2.removeAll();
+                        panel2.revalidate();
+                        panel2.repaint();
+                        panel2.add(novirusfound);
                     }
                 }
             }
@@ -296,33 +385,57 @@ public class GUI extends JFrame {
         drivescanbut.addActionListener(new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent e) {
+
+            panel2.removeAll();
+            panel2.revalidate();
+            panel2.repaint();
+            panel2.add(driveScanningLabel);
+            panel2.add(virusscanningLabel);
+            
+
             JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setDialogTitle("Select a Drive");
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
             
             // Show the root directory of a known drive
             File rootDrive = new File("C:\\");
             fileChooser.setCurrentDirectory(rootDrive);
-
             int result = fileChooser.showOpenDialog(null);
 
+            
             if (result == JFileChooser.APPROVE_OPTION) {
+                
+                
+                //scan through the folder
                 File selectedDirectory = fileChooser.getSelectedFile();
                 ArrayList<String> malwareFilePaths = new ArrayList<>();
+
                 scanDrive(selectedDirectory, malwareFilePaths);
 
                 if (malwareFileCount > 0) {
-                    System.out.println(malwareFileCount + " Malicious files detected!");
+                    panel2.removeAll();
+                    panel2.revalidate();
+                    panel2.repaint();
+                    panel2.add(virusfound);
+                    panel2.add(removebut);
+                    panel2.add(quarantinebut);
+                    panel2.add(virusCount);
+                    virusCount.setText(malwareFileCount + " Malicious files detected!");
+
                     for (String path : malwareFilePaths) {
                         System.out.println(path);
                     }
+
                 } else {
                     System.out.println("Files is clean!");
+                    panel2.removeAll();
+                    panel2.revalidate();
+                    panel2.repaint();
+                    panel2.add(novirusfound);
                 }
             }
         }
     });
-
-
 
 
 // -----------------------------------------Frame-------------------------------------------------------------------
@@ -373,5 +486,29 @@ public class GUI extends JFrame {
         
     }
 
+    // Try to implement text animation
+    private void startDriveScanningAnimation() {
+        driveScanningTimer = new Timer(500, new ActionListener() {
+            private int dotCount = 0;
+    
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                dotCount++;
+                if (dotCount > 3) {
+                    dotCount = 0;
+                }
+                String dots = new String(new char[dotCount]).replace('\0', '.');
+                driveScanningLabel.setText("Scanning" + dots);
+            }
+        });
+        driveScanningTimer.start();
+    }
+
+    private void stopDriveScanningAnimation() {
+        if (driveScanningTimer != null) {
+            driveScanningTimer.stop();
+            driveScanningLabel.setText("Scan Complete");
+        }
+    }
 
 }
