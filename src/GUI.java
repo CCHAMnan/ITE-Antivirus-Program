@@ -1,4 +1,6 @@
 import javax.swing.*;
+import javax.swing.filechooser.FileSystemView;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -266,6 +268,11 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JFileChooser fileChooser = new JFileChooser();
+                
+                // Show "Desktop" path as the initial directory
+                File thisPC = FileSystemView.getFileSystemView().getHomeDirectory();
+                fileChooser.setCurrentDirectory(thisPC);
+
                 int result = fileChooser.showOpenDialog(null);
 
                 if (result == JFileChooser.APPROVE_OPTION) {
@@ -291,11 +298,15 @@ public class GUI extends JFrame {
         public void actionPerformed(ActionEvent e) {
             JFileChooser fileChooser = new JFileChooser();
             fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            
+            // Show the root directory of a known drive
+            File rootDrive = new File("C:\\");
+            fileChooser.setCurrentDirectory(rootDrive);
+
             int result = fileChooser.showOpenDialog(null);
 
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedDirectory = fileChooser.getSelectedFile();
-
                 ArrayList<String> malwareFilePaths = new ArrayList<>();
                 scanDrive(selectedDirectory, malwareFilePaths);
 
