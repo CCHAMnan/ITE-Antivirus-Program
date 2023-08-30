@@ -4,16 +4,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.HashSet;
+import java.util.ArrayList;
 
 public class GUI extends JFrame {
+    private int malwareFileCount = 0;
 
+    private Sha256 sha256 = new Sha256();
+    private MalwareDataset malwareDataset = new MalwareDataset();
+
+    // Read data
+    private HashSet<String> maliciousHashes = malwareDataset.getMaliciousHashes("data\\dataset.csv");
+
+    //Display GUI
     public void displayGUI() {
-        Sha256 sha256 = new Sha256();
-        MalwareDataset malwareDataset = new MalwareDataset();
-
-        HashSet<String> maliciousHashes = malwareDataset.getMaliciousHashes("data\\dataset.csv");
-
-
+        
 
 // -----------------------------------------Icons-------------------------------------------------------------------
 
@@ -72,6 +76,8 @@ public class GUI extends JFrame {
         drivescanicon = new ImageIcon(image9);   
 
 
+
+
 // -----------------------------------------Labels-------------------------------------------------------------------
 
         // Line label
@@ -94,6 +100,8 @@ public class GUI extends JFrame {
         JLabel drivescan = new JLabel();
         drivescan.setBounds(580, 250, 100, 100);
         drivescan.setIcon(drive);
+
+
 
 
 // -----------------------------------------Buttons-------------------------------------------------------------------
@@ -278,9 +286,35 @@ public class GUI extends JFrame {
         });
 
 
+        drivescanbut.addActionListener(new ActionListener() {
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            JFileChooser fileChooser = new JFileChooser();
+            fileChooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+            int result = fileChooser.showOpenDialog(null);
+
+            if (result == JFileChooser.APPROVE_OPTION) {
+                File selectedDirectory = fileChooser.getSelectedFile();
+
+                ArrayList<String> malwareFilePaths = new ArrayList<>();
+                scanDrive(selectedDirectory, malwareFilePaths);
+
+                if (malwareFileCount > 0) {
+                    System.out.println(malwareFileCount + " Malicious files detected!");
+                    for (String path : malwareFilePaths) {
+                        System.out.println(path);
+                    }
+                } else {
+                    System.out.println("Files is clean!");
+                }
+            }
+        }
+    });
+
+
+
 
 // -----------------------------------------Frame-------------------------------------------------------------------
-
 
 
         // create main layout
@@ -296,4 +330,37 @@ public class GUI extends JFrame {
         frame.add(panel1);
         frame.add(panel2);
     }
+
+
+//-------------------------------------------Methods------------------------------------------------------------------
+
+    // scan directory
+    private void scanDrive(File directory, ArrayList<String> malwareFilePaths) {
+        if (directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                for (File file : files) {
+                    if (file.isFile()) {
+                        String filePath = file.getAbsolutePath();
+                        String sha256Hash = sha256.getSHA256Hash(filePath);
+                        System.out.println("Scanning file: " + filePath);
+                        
+                        boolean isMalicious = maliciousHashes.contains(sha256Hash);
+    
+                        if (isMalicious) {
+                            System.out.println("Malicious file detected: " + filePath);
+                            malwareFilePaths.add(filePath);
+                            malwareFileCount++;
+                        }
+
+                    } else if (file.isDirectory()) {
+                        scanDrive(file, malwareFilePaths); // Recursive call for subdirectories
+                    }
+                }
+            }
+        }
+        
+    }
+
+
 }
